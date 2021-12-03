@@ -11,29 +11,30 @@ namespace DAL
     public class ManejoDeArchivoRepository
     {
 
-        public List<Factura> ConsultarVentas(string fileName)
+        public List<Factura> ConsultarTodos(string fileName)
         {
-            List<Factura> ventas = new List<Factura>();
+            List<Factura> estudiantesDelFile = new List<Factura>();
 
             FileStream file = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Read);
             StreamReader reader = new StreamReader(file);
             string linea = string.Empty;
+
             while ((linea = reader.ReadLine()) != null)
             {
-                Factura venta = Map(linea);
-                ventas.Add(venta);
+                estudiantesDelFile.Add(Map(linea));
             }
 
             reader.Close();
             file.Close();
 
-            return ventas;
+            return estudiantesDelFile;
         }
 
         public Factura Map(string linea)
         {
-            Factura factura = new Factura();
             string[] matriz = linea.Split(';');
+            Factura factura = new Factura();
+            
 
             factura.NumeroFactura = matriz[0];
             factura.Identificacion = matriz[1];

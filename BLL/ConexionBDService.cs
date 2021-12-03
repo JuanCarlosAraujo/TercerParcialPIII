@@ -13,7 +13,6 @@ namespace BLL
 
         private DataBaseRepository conexionBDRepository;
         private ConexionManager conexionManager;
-        private ServicioResponse servicioResponse;
 
         public ConexionBDService(string cadena)
         {
@@ -42,12 +41,13 @@ namespace BLL
             try
             {
                 conexionManager.Open();
-
-                return conexionBDRepository.ConsultarVentas();
+                List<Factura> estudianteDelFile = conexionBDRepository.ConsultarVentas();
+                return estudianteDelFile;
             }
             catch (Exception e)
             {
                 return null;
+
             }
             finally
             {
@@ -55,18 +55,18 @@ namespace BLL
             }
         }
 
-        public ServicioResponse ConsultarProductos()
+        public List<Servicio> ConsultarProductos()
         {
             try
             {
                 conexionManager.Open();
-                servicioResponse = new ServicioResponse(conexionBDRepository.ConsultarProductos());
-                return servicioResponse;
+                List<Servicio> estudianteDelFile = conexionBDRepository.ConsultarProductos();
+                return estudianteDelFile;
             }
             catch (Exception e)
             {
-                servicioResponse = new ServicioResponse($"ERROR: {e}");
-                return servicioResponse;
+                return null;
+
             }
             finally
             {

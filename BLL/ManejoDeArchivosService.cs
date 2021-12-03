@@ -2,56 +2,52 @@
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BLL
 {
     public class ManejoDeArchivosService
-    {
-        public ManejoDeArchivoRepository manejoArchivoRepository;
-        public ArchivoVentaTryCatch archivoVentaTryCatch;
+    {       public ManejoDeArchivoRepository manejoArchivoRepository;
 
 
+            
+            public ManejoDeArchivosService()
+            {
+                manejoArchivoRepository = new ManejoDeArchivoRepository();
+            }
 
-        public ManejoDeArchivosService()
-        {
-            manejoArchivoRepository = new ManejoDeArchivoRepository();
-        }
-
-        public ArchivoVentaTryCatch Consultar(string filename)
+        public EstudianteConsultarResponse ConsultarTodos(string fileName)
         {
             try
             {
-                List<Factura> archivo = manejoArchivoRepository.ConsultarVentas(filename);
-                archivoVentaTryCatch = new ArchivoVentaTryCatch(archivo);
-
-                return archivoVentaTryCatch;
+                List<Factura> estudianteDelFile = manejoArchivoRepository.ConsultarTodos(fileName);
+                return new EstudianteConsultarResponse(estudianteDelFile);
             }
             catch (Exception e)
             {
-                archivoVentaTryCatch = new ArchivoVentaTryCatch("Se ha presentado la excepcion: " + e.Message);
-                return archivoVentaTryCatch;
+                return new EstudianteConsultarResponse("Se ha presentado la excepcion: " + e.Message);
             }
         }
 
-        public class ArchivoVentaTryCatch
+        public class EstudianteConsultarResponse
         {
-            public List<Factura> Ventas { get; set; }
+            public List<Factura> Estudiantes { get; set; }
+            public bool Error { get; set; }
             public string MensajeDeError { get; set; }
 
-            public ArchivoVentaTryCatch(List<Factura> ventas)
+            public EstudianteConsultarResponse(List<Factura> estudiantes)
             {
-                this.Ventas = ventas;
-                this.MensajeDeError = null;
+                Estudiantes = estudiantes;
+                Error = false;
             }
-            public ArchivoVentaTryCatch(string mensajeDeError)
+            public EstudianteConsultarResponse(string mensajeDeError)
             {
-                this.Ventas = null;
-                this.MensajeDeError = mensajeDeError;
+                MensajeDeError = mensajeDeError;
+                Error = true;
             }
-            public ArchivoVentaTryCatch()
-            {
 
-            }
         }
     }
 }

@@ -33,10 +33,10 @@ namespace PresentacionGUI
             if (openFile.ShowDialog() == DialogResult.OK && openFile.FileName != null)
             {   string file = openFile.FileName;
                 txtRuta.Text = file;
-                if (manejoDeArchivosService.Consultar(file).MensajeDeError == null)
+                if (manejoDeArchivosService.ConsultarTodos(file).MensajeDeError == null)
                 {
-                    facturas = manejoDeArchivosService.Consultar(file).Ventas;
-                    servicios = conexionBDService.ConsultarProductos().productos;
+                    facturas = manejoDeArchivosService.ConsultarTodos(file).Estudiantes;
+                    servicios = conexionBDService.ConsultarProductos();
                     MessageBox.Show("secargo el archivo");
                     foreach (var item in facturas)
                     {
@@ -47,7 +47,7 @@ namespace PresentacionGUI
                                 conexionBDService.GuardarVentas(item);
                             }
                         }
-                    }
+                    }ConsultaDataGrid(file);
                 }
                 else
                 {
@@ -55,10 +55,10 @@ namespace PresentacionGUI
                     MessageBox.Show("Archivo invalido");
                 }
             }
-            ConsultaDataGrid();
+            
         }
 
-        private void ConsultaDataGrid()
+        private void ConsultaDataGrid(string file)
         {
             dataGridView1.DataSource = conexionBDService.ConsultarProductos();
         }
