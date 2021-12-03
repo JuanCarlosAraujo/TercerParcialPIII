@@ -1,0 +1,14 @@
+create table Banco (nit nvarchar(4) primary key, nombre nvarchar(30))
+create table Servicio (codigo nvarchar(4) primary key, tipo nvarchar(40), valor float)
+create table Factura (numero int primary key, identificacion nvarchar(11), codigoServicio nvarchar(4), valor float, estado nvarchar(10), FOREIGN KEY (codigoServicio) REFERENCES Servicio (codigo))
+create table Pago(codigoBanco nvarchar(4), numeroFactura int, valor float, FOREIGN KEY (codigoBanco) REFERENCES Banco (nit), FOREIGN KEY (numeroFactura) REFERENCES Factura (numero))
+
+insert into Banco values ('B001', 'Banco de Bogotá')
+insert into Banco values ('B002', 'Banco Popular')
+insert into Banco values ('B003', 'Bancolombia')
+insert into Banco values ('B004', 'Banco Davivienda')
+
+insert into Servicio values ('S001', 'Acta de grado', 17000)
+insert into Servicio values ('S002', 'Cursos Dirigidos', 267000)
+insert into Servicio values ('S003', 'Certificado de Calificaciones', 14000)
+insert into Servicio values ('S004', 'Cancelacion de Semestre', 38000)
